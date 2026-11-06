@@ -1,0 +1,69 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scietex.hal.spi"
+dynamic = ["version"]
+description = "SPI transport backends for scietex.hal devices"
+authors = [{ name = "Anton Bondarenko", email = "bond.anton@gmail.com" }]
+license = { file = "LICENSE" }
+readme = "README.md"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+requires-python = ">=3.10"
+dependencies = []
+
+[project.urls]
+"Homepage" = "https://github.com/bond-anton/scietex.hal.spi"
+"Bug Tracker" = "https://github.com/bond-anton/scietex.hal.spi/issues"
+
+[project.optional-dependencies]
+spi = ["spidev>=3.6"]
+gpiozero = ["gpiozero>=1.6.2"]
+test = ["pytest"]
+lint = ["ruff==0.17.4", "ty==0.0.99"]
+dev = ["tox>=4.46.0", "pytest", "spidev>=3.6", "gpiozero>=1.6.2"]
+
+[tool.setuptools.dynamic]
+version = { attr = "scietex.hal.spi.version.__version__" }
+
+[tool.setuptools.package-data]
+"scietex.hal.spi" = ["py.typed"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+pythonpath = [
+  "src"
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E4","E7","E9","F","W","I","B","C4","SIM","UP","PLC0415","PLR0913","PLR0917"]
+ignore = ["E501","SLF001"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["PLC0415"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+docstring-code-format = false
+
+[tool.ty.environment]
+python-version = "3.10"
+
+[tool.ty.analysis]
+replace-imports-with-any = ["gpiozero.**", "spidev.**"]
